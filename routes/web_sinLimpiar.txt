@@ -1,0 +1,120 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+/*
+Route::get('/', function () {
+	return "Hola desde la página Inicio";
+});
+
+Route::get('contacto', function () {
+	return "Hola desde la página de contacto";
+});
+*/
+/*
+	Si no se colaca nombre se produce el error no existe la pagina
+Route::get('saludos/{nombre}', function ($nombre) {
+	return "Saludos $nombre";
+});
+Solucion considerar que nombre podria no llegar y asignamos un default*/
+/*Si queremos validar la entrada Nombre utilizamos la funcion where 
+Route::get('saludos/{nombre?}', function ($nombre='Anonimo') {
+	return "Saludos $nombre";
+});
+Route::get('saludos/{nombre?}', function ($nombre='Anonimo') {
+	return "Saludos $nombre";
+})->where('nombre',"[A-Za-z]+");
+*/
+/*
+Route::get('saludos/{nombre?}', ['as' => 'saludo', function ($nombre='Anonimo') {
+	// tres formas de pasar parametros a una vista
+	//return view('saludo',['nombre' => $nombre]);
+	//return view('saludo')->with(['nombre' => $nombre]);
+	//return view('saludo',compact('nombre'));
+	$html = "<h2>Contenido HTML</h2>";
+	$script = "<script>alert('Problema XSS - cross site scripting!')</script>";
+	$consolas = [
+		//"Play station",
+		//"Xbox One",
+		//"Wii U"
+	];
+	return view('saludo',compact('nombre','html','script','consolas'));
+}])->where('nombre',"[A-Za-z]+");
+*/
+/*
+Cuando hacemos referencia a un linl en mas de un lugar, podemos tener problemas si cambiamos el link
+por ejemplo de /Contactanos a /Contactame
+
+para resolver es posible dar nombre a las rutas
+
+Route::get('contactos', function(){
+	return "Sección de contactos...";
+});
+
+
+Route::get('/', function () {
+	echo "<a href='contactos'>Contacto</a><br>";
+	echo "<a href='contactos'>Contacto</a><br>";
+	echo "<a href='contactos'>Contacto</a><br>";
+	echo "<a href='contactos'>Contacto</a><br>";
+	echo "<a href='contactos'>Contacto</a><br>";
+});
+
+
+
+Route::get('contactame', ['as' => 'contactos', function(){
+	return "Sección de contactos...";
+}]);
+
+Route::get('/', function () {
+	echo "<a href=". route('contactos').">Contacto</a><br>";
+	echo "<a href=". route('contactos').">Contacto</a><br>";
+	echo "<a href=". route('contactos').">Contacto</a><br>";
+	echo "<a href=". route('contactos').">Contacto</a><br>";
+	echo "<a href=". route('contactos').">Contacto</a><br>";
+});
+*/
+/*
+Route::get('contactame', ['as' => 'contactos', function(){
+	return view('contactos');
+}]);
+
+
+Route::get('/', ['as' => 'home',function() {
+    return view('home');
+}]);
+*/
+//hay dos formas de aplicar un middleware 
+//route::get('/',['as' => 'home', 'uses' => 'PagesController@home'])->middleware('example');
+//La segunda es con un conttructor desde el controler PagesController
+
+
+//**************Para ver en consola todas las rutas: php artisan r:l*************************
+
+
+route::get('/',['as' => 'home', 'uses' => 'PagesController@home']);
+route::get('contactame',['as' => 'contactos', 'uses' => 'PagesController@contact']);
+route::post('contacto','PagesController@mensajes');
+route::get('saludos/{nombre?}',['as' => 'saludo', 'uses' => 'PagesController@saludo'])->where('nombre',"[A-Za-z]+");
+
+
+Route::resource('mensajes','MessagesController');
+
+/*
+route::get('mensajes',['as' => 'messages.index','uses' => 'MessagesController@index']);
+route::get('/mensajes/create',['as' => 'messages.create','uses' => 'MessagesController@create']);
+route::post('mensajes',['as' => 'messages.store','uses' => 'MessagesController@store']);
+route::get('mensajes/{id}',['as' => 'messages.show','uses' => 'MessagesController@show']);
+route::get('mensajes/{id}/edit',['as' => 'messages.edit','uses' => 'MessagesController@edit']);
+route::put('mensajes/{id}',['as' => 'messages.update','uses' => 'MessagesController@update']);
+route::delete('mensajes/{id}',['as' => 'messages.destroy','uses' => 'MessagesController@destroy']);
+*/
