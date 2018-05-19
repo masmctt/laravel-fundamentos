@@ -13,17 +13,34 @@
 
 //Route::get('login','Auth\LoginController@ShowLoginForm');
 Route::get('/login','Auth\LoginController@ShowLoginForm');
-/*
+
+Route::post('login','Auth\LoginController@login');
+
+Route::get('logout','Auth\LoginController@logout');
+
+
 Route::get('test', function(){
 	$users = new App\User;
-	$users->name = 'Otro Admin';
-	$users->email = 'otro@gmail,com';
+	$users->name = 'admin';
+	$users->email = 'admin@gmail.com';
 	$users->password = bcrypt('1234567');
 	$users->save();
 
+	$users2 = new App\User;
+	$users2->name = 'moderador';
+	$users2->email = 'mod@gmail.com';
+	$users2->password = bcrypt('1234567');
+	$users2->save();
+
+	$users3 = new App\User;
+	$users3->name = 'estudiante';
+	$users3->email = 'estudiante@gmail.com';
+	$users3->password = bcrypt('1234567');
+	$users3->save();
+
 	return $users;
 });
-*/
+
 Route::get('roles', function(){
 	//return \App\Role::all();
 	return \App\Role::with('users')->get();
@@ -40,10 +57,6 @@ route::get('saludos/{nombre?}',['as' => 'saludo', 'uses' => 'PagesController@sal
 Route::resource('mensajes','MessagesController');
 Route::resource('usuarios','UsersController');
 
-
-Route::post('login','Auth\LoginController@login');
-
-Route::get('logout','Auth\LoginController@logout');
 
 Route::get('nav', function(){
 	return view('layout');

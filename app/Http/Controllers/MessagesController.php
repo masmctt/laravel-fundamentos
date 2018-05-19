@@ -87,6 +87,7 @@ class MessagesController extends Controller
         este es la mejor manera ya que maneja usuarios autenticados o no
         */
         $message = Message::create($request->all());
+        
         if (auth()->check()) 
         {
             auth()->user()->messages()->save($message);

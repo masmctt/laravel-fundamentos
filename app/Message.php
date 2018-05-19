@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Note;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
@@ -13,4 +15,15 @@ class Message extends Model
 
     //Asignacion masiva, con esto solo se actualizaran masivamente estos campos (Insert o Update)
     protected $fillable = ['nombre','email','mensaje'];
+
+    public function user()
+    {
+    	return $this->belongsTo(User::class);
+    }
+
+    public function note()
+    {
+    	return $this->hasOne(Note::class);
+    }
+
 }

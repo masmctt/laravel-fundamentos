@@ -10,8 +10,8 @@ use App\Http\Requests\UpdateUserRequest;
 class UsersController extends Controller
 {
     function __construct(){
-        $this->middleware('auth',['except',['show']]);
-        $this->middleware('roles:admin',['except' => ['edit','update','show']]);
+        $this->middleware('auth',['except',['show']]); //para omitir la validacion de estos metodos en el controller del metodo
+        $this->middleware('roles:admin',['except' => ['edit','update','show']]); //para omitir la validacion
         //$this->middleware([
         //    'auth',
         //    'roles:admin'
@@ -79,7 +79,8 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $this->authorize('edit',$user);
+        $this->authorize('edit',$user); //esta linea valida con el archivo policy del modelo, es este caso 'UserPolicy', en caso de no pasar validacion
+                                        // manda una Excepción
 
         $roles = Role::pluck('display_name','id');
 
