@@ -25,7 +25,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users=\App\User::all();
+        //$users=\App\User::all();; para evitar el problema conocido como n+1
+        //que se refiere a buscar por ejemplo el role por cada usuario, lo cargamos previo
+        //$users=\App\User::with('roles')->get(); si hay mas relaciones con el Usuario los adicionamos
+        $users=\App\User::with(['roles', 'note', 'tags'])->get();
         return view('users.index',compact('users'));
     }
 

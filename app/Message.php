@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Tag;
 use App\Note;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,12 @@ class Message extends Model
 
     public function note()
     {
-    	return $this->hasOne(Note::class);
+    	return $this->morphOne(Note::class, 'notable');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
 }

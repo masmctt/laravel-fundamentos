@@ -11,6 +11,7 @@
 				<th>Email</th>
 				<th>Mensaje</th>
 				<th>Notas</th>
+				<th>Etiquetas</th>
 				<th>Acción</th>
 			</tr>
 		</thead>
@@ -34,7 +35,8 @@
 						<a href="{{ route('mensajes.show',$message->id) }}">			{{ $message->mensaje }} 
 						</a>
 					</td>
-					<td>{{ $message->note->body }}</td>
+					<td>{{ $message->note ? $message->note->body : '' }}</td>
+					<td>{{ $message->tags->pluck('name')->implode(', ') }}</td>
 					<td>
 						<a class="btn-info btn-sm" href="{{ route('mensajes.edit',$message->id) }}"> Editar </a>
 						<form style="display:inline" method="POST" action="{{ route('mensajes.destroy',$message->id) }}">

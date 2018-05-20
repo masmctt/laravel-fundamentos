@@ -12,6 +12,13 @@
 */
 
 //Route::get('login','Auth\LoginController@ShowLoginForm');
+/* con esto se muestran las sentencias SQL que realiza laravel
+DB::listen(function($query){
+	echo "<pre>{$query->sql}</pre>";
+	echo "<pre>{$query->time}</pre>";
+});
+*/
+
 Route::get('/login','Auth\LoginController@ShowLoginForm');
 
 Route::post('login','Auth\LoginController@login');

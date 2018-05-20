@@ -1,7 +1,16 @@
 <?php
 
 return [
+    /*
+        Basicamente la configuracion necesaria para el envio de mails en este archivo
+        es el FROM
+        'from' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
 
+        pero estos los tomara del archivo env
+    ],
+    */
     /*
     |--------------------------------------------------------------------------
     | Mail Driver
@@ -56,8 +65,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'masmctt@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Marco'),
     ],
 
     /*

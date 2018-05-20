@@ -4,20 +4,21 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNotesTable extends Migration
+class CreateTaggablesTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
+    //php artisan make:migration create_taggables_table --create=taggables --asi se creo
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('taggables', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('body');
-            $table->integer('notable_id')->unsigned();
-            $table->string('notable_type');
+            $table->integer('tag_id')->unsigned();
+            $table->integer('taggable_id')->unsigned();
+            $table->string('taggable_type');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('taggables');
     }
 }

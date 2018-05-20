@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Message;
 use DB;
+use App\Message;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Events\MessageWasReceived;
+use Illuminate\Support\Facades\Mail;
  //ayuda de artisan con -h ejecutar php artisan -h make:controller
 // para crear un controlador con todos los metodos comunes ejecutar: php artisan make:controller MessagesController --resource
 class MessagesController extends Controller
@@ -23,7 +25,10 @@ class MessagesController extends Controller
         //$messages=DB::table('messages')->get();
         //return Message::all();
         //return $messages;
-        $messages=Message::all();
+        //$messages=Message::all(); para evitar el problema conocido como n+1
+        //que se refiere a buscar por ejemplo el usuario por cada nota, lo cargamos previo
+        //$messages=Message::with('user')->get(); si hay mas relaciones con el mensaje los adicionamos
+        $messages=Message::with(['user', 'note', 'tags'])->get();
         return view('messages.index',compact('messages'));
     }
 
@@ -93,6 +98,14 @@ class MessagesController extends Controller
             auth()->user()->messages()->save($message);
         }
         
+        event(new MessageWasReceived($message));
+
+     //Este codigo se paso al listener del evento MessageWasReceived que es SendAutoresponse
+     //   Mail::send('emails.contact',['msg' => $message], function($m) use ($message){
+     //       $m->to($message->email, $message->nombre)->subject('Tu mensaje fue recibido');
+//            $m->to('masmctt@gmail.com', 'Marco')->subject('Tu mensaje fue recibido');
+     //   });
+
         /* Esta Opcion es unicamente para usuarios autenticados
         fallaria si el usuario no esta autenticado
         desde que se crea el mensaje va relacionado al usuario
