@@ -23,6 +23,10 @@ class SendAutoresponder
     {
       //  var_dump('Enviar auto respondedor');
         $message = $event->message;
+        if (auth()->check()) {
+            $message->email = auth()->user()->email;
+            $message->nombre = auth()->user()->name;
+        }
         Mail::send('emails.contact',['msg' => $message], function($m) use ($message){
             $m->to($message->email, $message->nombre)->subject('Tu mensaje fue recibido');
         });

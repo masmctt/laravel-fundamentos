@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Hash;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +17,13 @@
 
 //Route::get('login','Auth\LoginController@ShowLoginForm');
 /* con esto se muestran las sentencias SQL que realiza laravel
-DB::listen(function($query){
-	echo "<pre>{$query->sql}</pre>";
-	echo "<pre>{$query->time}</pre>";
-});
 */
+
+DB::listen(function($query){
+	//echo "<pre>{$query->sql}</pre>";
+	//echo "<pre>{$query->time}</pre>";
+});
+
 
 Route::get('/login','Auth\LoginController@ShowLoginForm');
 
@@ -30,20 +36,8 @@ Route::get('test', function(){
 	$users = new App\User;
 	$users->name = 'admin';
 	$users->email = 'admin@gmail.com';
-	$users->password = bcrypt('1234567');
+	$users->password = Hash::make('1234567'); //bcrypt('1234567');
 	$users->save();
-
-	$users2 = new App\User;
-	$users2->name = 'moderador';
-	$users2->email = 'mod@gmail.com';
-	$users2->password = bcrypt('1234567');
-	$users2->save();
-
-	$users3 = new App\User;
-	$users3->name = 'estudiante';
-	$users3->email = 'estudiante@gmail.com';
-	$users3->password = bcrypt('1234567');
-	$users3->save();
 
 	return $users;
 });
@@ -54,6 +48,10 @@ Route::get('roles', function(){
 });
 
 route::get('/',['as' => 'home', 'uses' => 'PagesController@home']);
+//Route::get('/', function(){
+//	print_r(app()->make('redis'));
+//});
+
 route::get('home',['as' => 'home', 'uses' => 'PagesController@home']);
 
 
