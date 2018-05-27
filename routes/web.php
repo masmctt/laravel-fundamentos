@@ -19,6 +19,55 @@ DB::listen(function($query){
 });
 */
 
+Route::get('/menu', function () {
+    return view('menu.menu');
+});
+Route::get('/menu1', function () {
+    return view('menu.menu1');
+});
+Route::get('/menu2', function () {
+    return view('menu.menu2');
+});
+Route::get('/menu3', function () {
+    return view('menu.menu3');
+});
+Route::get('/menu4', function () {
+    return view('menu.menu4');
+});
+Route::get('/menu5', function () {
+    return view('menu.menu5');
+});
+Route::get('/menu6', function () {
+    return view('menu.menu6');
+});
+Route::get('/menu7', function () {
+    return view('menu.menu7');
+});
+Route::get('/menu8', function () {
+    return view('menu.menu8');
+});
+Route::get('/menu9', function () {
+    return view('menu.menu9');
+});
+Route::get('/menu10', function () {
+    return view('menu.menu10');
+});
+
+Route::get('/menu14', function () {
+    return view('menu.menu14');
+});
+Route::get('/menu11', function () {
+    return view('menu.menu11');
+});
+Route::get('/menu12', function () {
+    return view('menu.menu12');
+});
+Route::get('/menu13', function () {
+    return view('menu.menu13');
+});
+
+
+
 Route::get('/login','Auth\LoginController@ShowLoginForm');
 
 Route::post('login','Auth\LoginController@login');
