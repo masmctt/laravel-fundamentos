@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Events\MessageWasReceived;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
  //ayuda de artisan con -h ejecutar php artisan -h make:controller
 // para crear un controlador con todos los metodos comunes ejecutar: php artisan make:controller MessagesController --resource
 class MessagesController extends Controller
@@ -28,7 +29,29 @@ class MessagesController extends Controller
         //$messages=Message::all(); para evitar el problema conocido como n+1
         //que se refiere a buscar por ejemplo el usuario por cada nota, lo cargamos previo
         //$messages=Message::with('user')->get(); si hay mas relaciones con el mensaje los adicionamos
-        $messages=Message::with(['user', 'note', 'tags'])->get();
+        //$messages=Message::with(['user', 'note', 'tags'])->Simplepaginate(10);
+        //$messages=Message::with(['user', 'note', 'tags'])->paginate(10);
+        
+        $key = "messages.page." . request('page', 1);
+
+        $messages = Cache::rememberForever($key, function(){
+            return Message::with(['user', 'note', 'tags'])
+                ->orderBy('created_at',request('sorted', 'DESC'))
+                ->paginate(10);
+        });
+         /*   
+        if (Cache::has($key)) {
+            $messages=Cache::get($key);
+        }
+        else
+        {
+            $messages=Message::with(['user', 'note', 'tags'])
+                ->orderBy('created_at',request('sorted', 'DESC'))
+                ->paginate(10);
+            Cache::put($key, $messages, 5);
+        }
+        */
+
         return view('messages.index',compact('messages'));
     }
 
@@ -98,6 +121,8 @@ class MessagesController extends Controller
             auth()->user()->messages()->save($message);
         }
         
+        Cache::flush();
+
         event(new MessageWasReceived($message));
 
      //Este codigo se paso al listener del evento MessageWasReceived que es SendAutoresponse
@@ -134,7 +159,13 @@ class MessagesController extends Controller
         //$message=DB::table('messages')->where('id',$id)->first();
         //$message = Message::find($id);
         //Es mejor utilizar el findOrFail, para que mande el error y se puedan personalisar las paginas por error
-        $message = Message::findOrFail($id);
+        //$message = Message::findOrFail($id);
+
+        $message=Cache::rememberForever("message.{$id}",function() use($id){
+            return Message::findOrFail($id);
+        });
+
+
         return view('messages.show',compact('message'));
     }
 
@@ -147,7 +178,11 @@ class MessagesController extends Controller
     public function edit($id)
     {
         //$message=DB::table('messages')->where('id',$id)->first();
-        $message = Message::findOrFail($id);
+//        $message = Message::findOrFail($id);
+        $message=Cache::rememberForever("message.{$id}",function() use($id){
+            return Message::findOrFail($id);
+        });
+
         return view('messages.edit',compact('message'));
     }
 
@@ -177,6 +212,8 @@ class MessagesController extends Controller
         //Otra forma
         Message::findOrFail($id)->update($request->all());
         //Redireccionar
+        Cache::flush();
+
         return redirect()->route('mensajes.index');
     }
 
@@ -192,6 +229,7 @@ class MessagesController extends Controller
         //DB::table('messages')->where('id',$id)->delete();
         Message::findOrFail($id)->delete();
         //Redireccionar
+        Cache::flush();
         return redirect()->route('mensajes.index');
     }
 }

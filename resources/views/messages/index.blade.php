@@ -48,6 +48,7 @@
 					</td>
 				</tr>
 			@endforeach
+			{!! $messages->fragment('hash')->appends(['sorted' => request('sorted')])->links('pagination::bootstrap-4') !!}
 		</tbody>
 	</table>
 
