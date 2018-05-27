@@ -11,3 +11,10 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+.editorconfig
+Vagrantfile
+after.sh
+aliases
+routes/webBack.php
+composer.json
+composer.lock

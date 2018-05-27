@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 //php artisan event:generate
 //Previo se deben declarar los eventos y listener en el archivo:
 //Providers\EventServiceProvider
-class SendAutoresponder
+class SendAutoresponder implements ShouldQueue
 {
     /**
      * Handle the event.

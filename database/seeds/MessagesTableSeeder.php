@@ -22,7 +22,5 @@ class MessagesTableSeeder extends Seeder
         		'mensaje' => "Este es el mensaje del usuario número {$i}",
         		'created_at' => Carbon::now()->subdays(100)->addDays($i)
         	]);
-        }
-
-    }
+        }    }
 }

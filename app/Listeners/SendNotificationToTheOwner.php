@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 //php artisan event:generate
 //Previo se deben declarar los eventos y listener en el archivo:
 //Providers\EventServiceProvider
-class SendNotificationToTheOwner
+class SendNotificationToTheOwner implements ShouldQueue
 {
     /**
      * Handle the event.

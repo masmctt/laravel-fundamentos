@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Hash;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +17,13 @@ use Illuminate\Support\Facades\Hash;
 //Route::get('login','Auth\LoginController@ShowLoginForm');
 /* con esto se muestran las sentencias SQL que realiza laravel
 */
+
+Route::get('job', function ()
+{
+    dispatch(new App\Jobs\SendEmail);
+
+    return "Listo!";
+});
 
 DB::listen(function($query){
 	//echo "<pre>{$query->sql}</pre>";

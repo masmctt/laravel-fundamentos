@@ -15,6 +15,7 @@ class UsersTableSeeder extends Seeder
     {
         User::truncate();
         Role::truncate();
+        DB::table('assigned_roles')-truncate();
 
         $user = User::create([
         	'name' => 'Marco Antonio',
@@ -28,7 +29,5 @@ class UsersTableSeeder extends Seeder
         	'description' => 'Administrador del sitio web'
         ]);
 
-        $user->roles()->save($role);
-
-    }
+        $user->roles()->save($role);	    }
 }
